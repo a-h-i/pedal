@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+  "name": "audio",
+  "version": "1.0.0",
+  "platforms": ["teensy"],
+  "frameworks": ["arduino"],
+  "dependencies": {
+    "Audio": "^1.3",
+    "SD": "*",
+    "SPI": "*"
+  }
+}
