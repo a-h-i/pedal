@@ -1,5 +1,5 @@
 #pragma once
-#include <cstddef>
+#include <Arduino.h>
 #include <AudioStream.h>
 
 class EffectChain;

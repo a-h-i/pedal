@@ -2,7 +2,6 @@
 #include <Audio.h>
 #include "debug.h"
 #include <Wire.h>
-#include <SPI.h>
 #include <SD.h>
 
 

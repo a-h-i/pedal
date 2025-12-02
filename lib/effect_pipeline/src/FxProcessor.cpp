@@ -1,6 +1,5 @@
 #include "FxProcessor.hpp"
 #include "EffectChain.hpp"
-#include <Arduino.h>
 #include <array>
 #include "debug.h"
 
