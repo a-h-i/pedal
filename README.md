@@ -1,19 +1,9 @@
 Guitar Pedal
 ===========
-A small guitar effects pedal project using teensy4.1. 
-
-
-
-
-
-
-
-
-
-
-
+A small guitar effects pedal project using teensy4.1.
 
 ## Runtime model
+
 ```
 +------------------------+        +------------------+
 |   Audio interrupt      |        |    loop()        |
@@ -25,19 +15,15 @@ A small guitar effects pedal project using teensy4.1.
       FxEngine::processBlock()         Controls::update()
 
 ```
+
 Separation between audio processing and UI/control logic.
 
 In the control we read pots, footswitch, etc. and update params and LEDs.
 
 In the audio processing loop we read blocks, process them and write them back. No blocking or allocation.
 
-
-
-
-
-
-
 ## Audio processing graph concept
+
 ```
 [Codec In] → AudioInputI2S → FxProcessor → AudioOutputI2S → [Codec Out]
 ```

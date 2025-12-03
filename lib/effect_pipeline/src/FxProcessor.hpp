@@ -20,7 +20,7 @@ public:
      * Global effect bypass
      * @param bypass
      */
-    void set_bypass(const bool bypass) { bypassed = bypass;};
+    void set_bypass(const bool bypass) { bypassed = bypass; };
     bool is_bypassed() const { return bypassed; }
 
 
@@ -28,8 +28,9 @@ public:
      * Called by the Teensy audio library in the audio interrupt.
      */
     virtual void update() override;
+
 private:
-    audio_block_t* inputQueueArray[1]{nullptr};
+    audio_block_t *inputQueueArray[1]{nullptr};
     EffectChain *chain{nullptr};
     bool bypassed{false};
 };

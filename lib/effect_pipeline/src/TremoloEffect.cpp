@@ -4,14 +4,12 @@
 #include <cmath>
 
 
-TremoloEffect::TremoloEffect(float sampleRate): sampleRate_(sampleRate){
+TremoloEffect::TremoloEffect(float sampleRate) : sampleRate_(sampleRate) {
     updatePhaseIncrement();
 }
 
 
-
 void TremoloEffect::set_rate(float rate) {
-
     rate_ = std::clamp(rate, 0.1f, 20.0f);
     updatePhaseIncrement();
 }
@@ -51,6 +49,5 @@ void TremoloEffect::process_block(float *samples, std::size_t num_samples) {
         // depth = 1 → gain ranges 0..1 (full tremolo)
         float gain = (1.0f - depth_) + depth_ * lfo01;
         samples[i] *= gain;
-
     }
 }

@@ -6,9 +6,7 @@
  * Simple tremolo effect
  * amplitude modulation with a sin LFO
  */
-class TremoloEffect: public Effect {
-
-
+class TremoloEffect : public Effect {
 public:
     /**
      *
@@ -25,14 +23,14 @@ public:
      */
     void set_depth(float depth);
 
-    float rate() const { return rate_;}
-    float depth() const { return depth_;}
+    float rate() const { return rate_; }
+    float depth() const { return depth_; }
 
     void process_block(float *samples, std::size_t num_samples) override;
 
-
 private:
     void updatePhaseIncrement();
+
     float sampleRate_;
     float rate_{4.0f};
     float depth_{0.7f};
@@ -40,7 +38,4 @@ private:
     float phase_{0.0f};
     // precomputed per-sample increment
     float phase_increment_{0.0f};
-
-
-
 };

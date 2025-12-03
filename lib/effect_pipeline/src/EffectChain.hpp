@@ -31,7 +31,8 @@ public:
     };
 
     std::size_t size() const { return effects.size(); }
+
 private:
-    std::array<Effect*, MAX_EFFECTS> effects{nullptr};
+    std::array<Effect *, MAX_EFFECTS> effects{nullptr};
     std::size_t num_effects{0};
 };
