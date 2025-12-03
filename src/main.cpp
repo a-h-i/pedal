@@ -8,12 +8,14 @@
 #include "FxProcessor.hpp"
 #include "EffectChain.hpp"
 #include "TremoloEffect.hpp"
+#include "DelayEffect.hpp"
 #include "UiManager.hpp"
 
 
 // --------- Our DSP chain ----------
 EffectChain effect_chain;
 TremoloEffect tremolo_effect(AUDIO_SAMPLE_RATE_EXACT);
+DelayEffect delay_effect(AUDIO_SAMPLE_RATE_EXACT, 1000.0f);
 
 // --------- UI ---------------
 constexpr TremoloControls tremolo_controls{
@@ -59,9 +61,16 @@ void setup() {
     audio_shield.volume(1.0f); // overall output volume (headphone/line out)
     audio_shield.lineOutLevel(255);
     audio_shield.lineInLevel(255);
+    // effects
     tremolo_effect.set_rate(5.0f);
     tremolo_effect.set_depth(0.7f);
     effect_chain.add_effect(&tremolo_effect);
+
+    delay_effect.set_delay_ms(400.0f);
+    delay_effect.set_feedback(0.5f);
+    delay_effect.set_mix(0.5f);
+    effect_chain.add_effect(&delay_effect);
+
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, HIGH);
 }
