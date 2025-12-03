@@ -7,10 +7,12 @@
 
 #include "FxProcessor.hpp"
 #include "EffectChain.hpp"
+#include "TremoloEffect.hpp"
 
 
 // --------- Our DSP chain ----------
 EffectChain       effectChain;
+TremoloEffect     tremoloEffect(AUDIO_SAMPLE_RATE_EXACT);
 
 // --------- Teensy Audio objects ----------
 
@@ -31,7 +33,6 @@ AudioControlSGTL5000 audioShield;
 
 
 
-
 void setup() {
     Serial.begin(115200);
     // Give Teensy Audio some memory for audio blocks
@@ -46,8 +47,9 @@ void setup() {
     audioShield.inputSelect(AUDIO_INPUT_LINEIN);
     audioShield.volume(0.6f);                     // overall output volume (headphone/line out)
 
-
-
+    tremoloEffect.set_rate(4.0f);
+    tremoloEffect.set_depth(0.7f);
+    effectChain.add_effect(&tremoloEffect);
 
 }
 
