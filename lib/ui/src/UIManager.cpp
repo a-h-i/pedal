@@ -1,6 +1,6 @@
 #include "UiManager.hpp"
 #include <cmath>
-
+#include "debug.h"
 
 /**
  * Exponential style mapping for nicer feel
@@ -28,7 +28,9 @@ void UIManager::setup() {
     if (setup_done) {
         return;
     }
+    DEBUG("Performing UIManager Setup");
     analogReadResolution(12); // 0..4095
+    analogReadAveraging(4);
     pinMode(tremolo_controls.rate_pot_pin, INPUT);
     setup_done = true;
 }

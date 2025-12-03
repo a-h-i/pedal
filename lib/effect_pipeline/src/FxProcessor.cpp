@@ -12,7 +12,8 @@ void FxProcessor::update() {
     // Get a writable audio block from input channel 0
     audio_block_t *block = receiveWritable(0);
     if (!block) {
-        FATAL("FxProcessor receive writable block failed");
+        DEBUG("FxProcessor receive writable block failed");
+        return;
     }
 
     if (!chain || bypassed) {

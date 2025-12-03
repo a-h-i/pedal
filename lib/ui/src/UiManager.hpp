@@ -13,6 +13,7 @@ struct TremoloControls {
 class UIManager {
 public:
     explicit UIManager(const TremoloControls tremolo_controls);
+
     void update();
 
 private:
@@ -20,6 +21,8 @@ private:
     float smoothed_tremolo_rate{0.0f};
     bool tremolo_initialized{false};
     bool setup_done{false};
+
     void setup();
+
     void updateTremolo();
 };

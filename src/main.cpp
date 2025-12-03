@@ -15,10 +15,9 @@
 EffectChain effect_chain;
 TremoloEffect tremolo_effect(AUDIO_SAMPLE_RATE_EXACT);
 
-
 // --------- UI ---------------
 constexpr TremoloControls tremolo_controls{
-    .rate_pot_pin = A2, // wire pot wiper here
+    .rate_pot_pin = A10, // wire pot wiper here
     .effect = tremolo_effect
 };
 UIManager ui_manager(tremolo_controls);
@@ -41,6 +40,8 @@ AudioControlSGTL5000 audio_shield;
 
 void setup() {
     Serial.begin(115200);
+    DEBUG("Starting setup");
+
     // Give Teensy Audio some memory for audio blocks
     AudioMemory(20);
     // Initialize I2C (for codec control)
@@ -48,14 +49,18 @@ void setup() {
 
     if (!audio_shield.enable()) {
         FATAL("Failed to enable audio shield");
+    } else {
+        DEBUG("Initialized audio Shield");
     }
-
     audio_shield.inputSelect(AUDIO_INPUT_LINEIN);
-    audio_shield.volume(0.6f); // overall output volume (headphone/line out)
-
+    audio_shield.inputLevel(1.0f);
+    audio_shield.lineInLevel(255);
+    audio_shield.volume(1.0f); // overall output volume (headphone/line out)
     tremolo_effect.set_rate(4.0f);
     tremolo_effect.set_depth(0.7f);
     effect_chain.add_effect(&tremolo_effect);
+    pinMode(LED_BUILTIN, OUTPUT);
+    digitalWrite(LED_BUILTIN, HIGH);
 }
 
 void loop() {
