@@ -18,6 +18,7 @@ TremoloEffect tremolo_effect(AUDIO_SAMPLE_RATE_EXACT);
 // --------- UI ---------------
 constexpr TremoloControls tremolo_controls{
     .rate_pot_pin = A10, // wire pot wiper here
+    .depth_pot_pin = A11,
     .effect = tremolo_effect
 };
 UIManager ui_manager(tremolo_controls);
@@ -54,9 +55,10 @@ void setup() {
     }
     audio_shield.inputSelect(AUDIO_INPUT_LINEIN);
     audio_shield.inputLevel(1.0f);
-    audio_shield.lineInLevel(255);
     audio_shield.volume(1.0f); // overall output volume (headphone/line out)
-    tremolo_effect.set_rate(4.0f);
+    audio_shield.lineOutLevel(255);
+    audio_shield.lineInLevel(255);
+    tremolo_effect.set_rate(5.0f);
     tremolo_effect.set_depth(0.7f);
     effect_chain.add_effect(&tremolo_effect);
     pinMode(LED_BUILTIN, OUTPUT);

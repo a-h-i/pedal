@@ -1,6 +1,7 @@
 #include "UiManager.hpp"
 #include <cmath>
 #include "debug.h"
+#include "FxProcessor.hpp"
 
 /**
  * Exponential style mapping for nicer feel
@@ -29,9 +30,10 @@ void UIManager::setup() {
         return;
     }
     DEBUG("Performing UIManager Setup");
-    analogReadResolution(12); // 0..4095
-    analogReadAveraging(4);
+    analogReadResolution(ANALOG_RESOLUTION); // 0..4095
+    analogReadAveraging(ANALOG_READ_AVG);
     pinMode(tremolo_controls.rate_pot_pin, INPUT);
+    pinMode(tremolo_controls.depth_pot_pin, INPUT);
     setup_done = true;
 }
 
@@ -43,19 +45,13 @@ void UIManager::update() {
 
 void UIManager::updateTremolo() {
     // read raw ADC value
-    int raw_rate = analogRead(tremolo_controls.rate_pot_pin);
-    float normalized_rate = raw_rate / 4095.0f; // 0..1
-
-    if (!tremolo_initialized) {
-        smoothed_tremolo_rate = normalized_rate;
-        tremolo_initialized = true;
-    }
-    // Simple smoothing (one-pole low pass)
-    // alpha near 0 → more smoothing, near 1 → less
-    constexpr float alpha = 0.15f;
-    smoothed_tremolo_rate = smoothed_tremolo_rate + alpha * (normalized_rate - smoothed_tremolo_rate);
+    const int raw_rate = analogRead(tremolo_controls.rate_pot_pin);
+    const float normalized_rate = raw_rate / ADC_MAX; // 0..1
     // Map [0,1] to a useful tremolo rate range, e.g. 0.3–12 Hz
-    const float rate_hz = mapNormToRate(smoothed_tremolo_rate);
-
+    const float rate_hz = mapNormToRate(normalized_rate);
     tremolo_controls.effect.set_rate(rate_hz);
+
+    const int raw_depth = analogRead(tremolo_controls.depth_pot_pin);
+    const float normalized_depth = raw_depth / ADC_MAX;
+    tremolo_controls.effect.set_depth(normalized_depth);
 }
