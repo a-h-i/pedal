@@ -17,8 +17,9 @@ TremoloEffect tremolo_effect(AUDIO_SAMPLE_RATE_EXACT);
 
 // --------- UI ---------------
 constexpr TremoloControls tremolo_controls{
-    .rate_pot_pin = A10, // wire pot wiper here
+    .rate_pot_pin = A10,
     .depth_pot_pin = A11,
+    .bypassed_led_pin = A15,
     .effect = tremolo_effect
 };
 UIManager ui_manager(tremolo_controls);

@@ -34,6 +34,7 @@ void UIManager::setup() {
     analogReadAveraging(ANALOG_READ_AVG);
     pinMode(tremolo_controls.rate_pot_pin, INPUT);
     pinMode(tremolo_controls.depth_pot_pin, INPUT);
+    pinMode(tremolo_controls.bypassed_led_pin, OUTPUT);
     setup_done = true;
 }
 
@@ -54,4 +55,6 @@ void UIManager::updateTremolo() {
     const int raw_depth = analogRead(tremolo_controls.depth_pot_pin);
     const float normalized_depth = raw_depth / ADC_MAX;
     tremolo_controls.effect.set_depth(normalized_depth);
+    const bool active = !tremolo_controls.effect.is_bypassed();
+    digitalWrite(tremolo_controls.bypassed_led_pin, active ? LOW : HIGH);
 }

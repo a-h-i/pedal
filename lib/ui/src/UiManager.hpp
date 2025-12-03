@@ -4,7 +4,7 @@
 
 
 struct TremoloControls {
-    int rate_pot_pin, depth_pot_pin;
+    int rate_pot_pin, depth_pot_pin, bypassed_led_pin;
     TremoloEffect &effect;
 };
 
