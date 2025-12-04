@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include "TremoloEffect.hpp"
 #include "DelayEffect.hpp"
+#include "EqualizerEffect.hpp"
 
 
 struct TremoloControls {
@@ -14,10 +15,16 @@ struct DelayControls {
     DelayEffect &effect;
 };
 
+struct EqualizerControls {
+    int low_cut_hz_pot_pin, high_cut_hz_pot_pin, gain_pot_pin, bypassed_led_pin;
+    EqualizerEffect &effect;
+};
+
 
 class UIManager {
 public:
-    explicit UIManager(const TremoloControls tremolo_controls, const DelayControls delay_controls);
+    explicit UIManager(TremoloControls tremolo_controls, DelayControls delay_controls,
+                       EqualizerControls equalizer_controls);
 
     void update();
 
@@ -27,11 +34,14 @@ private:
     static constexpr int ANALOG_READ_AVG = 32;
     TremoloControls tremolo_controls;
     DelayControls delay_controls;
+    EqualizerControls equalizer_controls;
     bool setup_done{false};
 
     void setup();
 
-    void updateTremolo() const;
+    void update_tremolo() const;
 
-    void updateDelay() const;
+    void update_delay() const;
+
+    void update_equalizer() const;
 };

@@ -21,9 +21,11 @@ static float mapNormToRate(float norm) {
 }
 
 
-UIManager::UIManager(const TremoloControls tremolo_controls,
-                     const DelayControls delay_controls) : tremolo_controls(tremolo_controls),
-                                                           delay_controls(delay_controls) {
+UIManager::UIManager(TremoloControls tremolo_controls,
+                     DelayControls delay_controls,
+                     EqualizerControls equalizer_controls) : tremolo_controls(tremolo_controls),
+                                                             delay_controls(delay_controls),
+                                                             equalizer_controls(equalizer_controls) {
 }
 
 
@@ -43,18 +45,24 @@ void UIManager::setup() {
     pinMode(delay_controls.feedback_pot_pin, INPUT);
     pinMode(delay_controls.mix_pot_pin, INPUT);
     pinMode(delay_controls.bypassed_led_pin, OUTPUT);
+    // Equalizer
+    pinMode(equalizer_controls.gain_pot_pin, INPUT);
+    pinMode(equalizer_controls.low_cut_hz_pot_pin, INPUT);
+    pinMode(equalizer_controls.high_cut_hz_pot_pin, INPUT);
+    pinMode(equalizer_controls.bypassed_led_pin, OUTPUT);
 
     setup_done = true;
 }
 
 void UIManager::update() {
     setup();
-    updateTremolo();
-    updateDelay();
+    update_equalizer();
+    update_tremolo();
+    update_delay();
 }
 
 
-void UIManager::updateTremolo() const {
+void UIManager::update_tremolo() const {
     // read raw ADC value
     const int raw_rate = analogRead(tremolo_controls.rate_pot_pin);
     const float normalized_rate = raw_rate / ADC_MAX; // 0..1
@@ -69,7 +77,7 @@ void UIManager::updateTremolo() const {
     digitalWrite(tremolo_controls.bypassed_led_pin, active ? LOW : HIGH);
 }
 
-void UIManager::updateDelay() const {
+void UIManager::update_delay() const {
     const int raw_delay_ms = analogRead(delay_controls.delay_ms_pot_pin);
     const float normalized_delay_ms = raw_delay_ms / ADC_MAX;
     delay_controls.effect.set_delay_ms(normalized_delay_ms * delay_controls.effect.max_delay_ms());
@@ -84,3 +92,22 @@ void UIManager::updateDelay() const {
     const bool active = !delay_controls.effect.is_bypassed();
     digitalWrite(delay_controls.bypassed_led_pin, active ? LOW : HIGH);
 }
+
+void UIManager::update_equalizer() const {
+    const int raw_low_cut = analogRead(equalizer_controls.low_cut_hz_pot_pin);
+    const float normalized_low_cut = raw_low_cut / ADC_MAX;
+    equalizer_controls.effect.set_low_cut_hz(normalized_low_cut * equalizer_controls.effect.nyquist());
+
+    const int raw_high_cut = analogRead(equalizer_controls.high_cut_hz_pot_pin);
+    const float normalized_high_cut = raw_high_cut / ADC_MAX;
+    equalizer_controls.effect.set_high_cut_hz(normalized_high_cut * equalizer_controls.effect.nyquist());
+
+    const int raw_gain = analogRead(equalizer_controls.gain_pot_pin);
+    const float normalized_gain = raw_gain / ADC_MAX;
+    const float gain_db = 48 * normalized_gain - 24;
+    equalizer_controls.effect.set_gain_db(gain_db);
+
+    const bool active = !equalizer_controls.effect.is_bypassed();
+    digitalWrite(equalizer_controls.bypassed_led_pin, active ? LOW : HIGH);
+}
+

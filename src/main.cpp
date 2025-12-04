@@ -16,6 +16,7 @@
 EffectChain effect_chain;
 TremoloEffect tremolo_effect(AUDIO_SAMPLE_RATE_EXACT);
 DelayEffect delay_effect(AUDIO_SAMPLE_RATE_EXACT, 1000.0f);
+EqualizerEffect equalizer_effect(AUDIO_SAMPLE_RATE_EXACT);
 
 // --------- UI ---------------
 constexpr TremoloControls tremolo_controls{
@@ -33,7 +34,15 @@ constexpr DelayControls delay_controls{
     .effect = delay_effect
 };
 
-UIManager ui_manager(tremolo_controls, delay_controls);
+constexpr EqualizerControls equalizer_controls{
+    .low_cut_hz_pot_pin = 26,
+    .high_cut_hz_pot_pin = 27,
+    .gain_pot_pin = 28,
+    .bypassed_led_pin = 29,
+    .effect = equalizer_effect
+};
+
+UIManager ui_manager(tremolo_controls, delay_controls, equalizer_controls);
 
 // --------- Teensy Audio objects ----------
 
@@ -56,7 +65,7 @@ void setup() {
     DEBUG("Starting setup");
 
     // Give Teensy Audio some memory for audio blocks
-    AudioMemory(20);
+    AudioMemory(40);
     // Initialize I2C (for codec control)
     Wire.begin();
 
@@ -71,6 +80,13 @@ void setup() {
     audio_shield.lineOutLevel(255);
     audio_shield.lineInLevel(255);
     // effects
+
+    equalizer_effect.set_low_cut_hz(80.0f);
+    equalizer_effect.set_high_cut_hz(8000.0f);
+    equalizer_effect.set_gain_db(0.0f);
+    effect_chain.add_effect(&equalizer_effect);
+
+
     tremolo_effect.set_rate(5.0f);
     tremolo_effect.set_depth(0.7f);
     effect_chain.add_effect(&tremolo_effect);
