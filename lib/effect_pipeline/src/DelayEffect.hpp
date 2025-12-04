@@ -31,6 +31,7 @@ public:
     float delay_ms() const { return delay_ms_; }
     float feedback() const { return feedback_; }
     float mix() const { return mix_; }
+    float max_delay_ms() const { return max_delay_ms_; }
 
 
     void process_block(float *samples, std::size_t num_samples) override;

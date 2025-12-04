@@ -24,7 +24,16 @@ constexpr TremoloControls tremolo_controls{
     .bypassed_led_pin = A15,
     .effect = tremolo_effect
 };
-UIManager ui_manager(tremolo_controls);
+
+constexpr DelayControls delay_controls{
+    .delay_ms_pot_pin = 38,
+    .feedback_pot_pin = 37,
+    .mix_pot_pin = 36,
+    .bypassed_led_pin = 35,
+    .effect = delay_effect
+};
+
+UIManager ui_manager(tremolo_controls, delay_controls);
 
 // --------- Teensy Audio objects ----------
 
