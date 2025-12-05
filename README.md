@@ -1,6 +1,7 @@
 Guitar Pedal
 ===========
 A small guitar effects pedal project using teensy4.1.
+It is actually an effects board and not a pedal.
 
 ## Runtime model
 

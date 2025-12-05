@@ -4,8 +4,8 @@
 #include "FxProcessor.hpp"
 
 /**
- * Exponential style mapping for nicer feel
- * low end has finer control, high end bunches up a bit.
+ * Exponential style mapping for a nicer feel
+ * low end has finer control, the high end bunches up a bit.
  * @param norm
  * @return
  */
