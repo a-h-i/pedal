@@ -6,17 +6,17 @@
 
 
 struct TremoloControls {
-    int rate_pot_pin, depth_pot_pin, bypassed_led_pin;
+    int rate_pot_pin, depth_pot_pin, bypassed_led_pin, bypass_switch_pin;
     TremoloEffect &effect;
 };
 
 struct DelayControls {
-    int delay_ms_pot_pin, feedback_pot_pin, mix_pot_pin, bypassed_led_pin;
+    int delay_ms_pot_pin, feedback_pot_pin, mix_pot_pin, bypassed_led_pin, bypass_switch_pin;
     DelayEffect &effect;
 };
 
 struct EqualizerControls {
-    int low_cut_hz_pot_pin, high_cut_hz_pot_pin, gain_pot_pin, bypassed_led_pin;
+    int low_cut_hz_pot_pin, high_cut_hz_pot_pin, gain_pot_pin, bypassed_led_pin, bypass_switch_pin;
     EqualizerEffect &effect;
 };
 

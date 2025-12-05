@@ -23,6 +23,7 @@ constexpr TremoloControls tremolo_controls{
     .rate_pot_pin = A10,
     .depth_pot_pin = A11,
     .bypassed_led_pin = A15,
+    .bypass_switch_pin = 32,
     .effect = tremolo_effect
 };
 
@@ -31,6 +32,7 @@ constexpr DelayControls delay_controls{
     .feedback_pot_pin = 37,
     .mix_pot_pin = 36,
     .bypassed_led_pin = 35,
+    .bypass_switch_pin = 31,
     .effect = delay_effect
 };
 
@@ -39,6 +41,7 @@ constexpr EqualizerControls equalizer_controls{
     .high_cut_hz_pot_pin = 27,
     .gain_pot_pin = 28,
     .bypassed_led_pin = 29,
+    .bypass_switch_pin = 30,
     .effect = equalizer_effect
 };
 
@@ -95,12 +98,10 @@ void setup() {
     delay_effect.set_feedback(0.5f);
     delay_effect.set_mix(0.5f);
     effect_chain.add_effect(&delay_effect);
-
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, HIGH);
 }
 
 void loop() {
     ui_manager.update();
-    delay(2);
 }
