@@ -1,6 +1,6 @@
 #pragma once
 #include "Effect.hpp"
-
+#include "BiQuadLowPass.hpp"
 
 /**
  * Low-cut (HPF)
@@ -43,21 +43,8 @@ private:
     float high_cut_hz_{20000.0f};
     float gain_db_{0.0f};
     float gain_linear_{1.0f};
-
-
-    // Coeffs/state for 1-pole low-pass used to build HPF
-    float hp_lp_a_ = 0.0f; // a0 for LP inside HP
-    float hp_lp_b_ = 0.0f; // b1 for LP inside HP
-    float hp_lp_z_ = 0.0f; // state for LP inside HP
-
-    // Coeffs/state for 1-pole LPF for high-cut
-    float lp_a_ = 0.0f;
-    float lp_b_ = 0.0f;
-    float lp_z_ = 0.0f;
-
-    void update_low_cut_coeffs();
-
-    void update_high_cut_coeffs();
+    BiQuadLowPass low_pass_;
+    BiQuadLowPass high_pass_;
 
     void update_gain();
 };
